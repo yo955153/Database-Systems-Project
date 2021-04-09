@@ -88,8 +88,8 @@ session_start();
 		<form method="post">
 			<div style="font-size: 20px;margin: 10px;color: white;">Login</div>
 
-			<input id="text" type="text" name="user_name"><br><br>
-			<input id="text" type="password" name="password"><br><br>
+			<input id="text" type="text" name="student_username"><br><br>
+			<input id="text" type="password" name="student_password"><br><br>
 
 			<input id="button" type="submit" value="Login"><br><br>
 
