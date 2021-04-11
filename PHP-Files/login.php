@@ -11,30 +11,78 @@ session_start();
 		//something was posted
 		$user_name = $_POST['student_username'];
 		$password = $_POST['student_password'];
+		$login_type = $_POST['login_type'];
 
-		if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
+		if(!empty($user_name) && !empty($password))
 		{
-
-			//read from database
-			$query = "select * from students where student_username = '$user_name' limit 1";
-			$result = mysqli_query($con, $query);
-
-			if($result)
+			if(($login_type == "Student") || ($login_type == "student"))
 			{
-				if($result && mysqli_num_rows($result) > 0)
-				{
+				//read from database
+				$query = "select * from students where student_username = '$user_name' limit 1";
+				$result = mysqli_query($con, $query);
 
-					$user_data = mysqli_fetch_assoc($result);
-					
-					if($user_data['student_password'] === $password)
+				if($result)
+				{
+					if($result && mysqli_num_rows($result) > 0)
 					{
 
-						$_SESSION['student_id'] = $user_data['student_id'];
-						header("Location: index.php");
-						die;
+						$user_data = mysqli_fetch_assoc($result);
+						
+						if($user_data['student_password'] === $password)
+						{
+
+							$_SESSION['student_id'] = $user_data['student_id'];
+							header("Location: index.php");
+							die;
+						}
+					}
+				}
+			}else if(($login_type == "RSO") || ($login_type == "rso"))
+			{
+				//read from database
+				$query = "select * from admin where rso_name = '$user_name' limit 1";
+				$result = mysqli_query($con, $query);
+
+				if($result)
+				{
+					if($result && mysqli_num_rows($result) > 0)
+					{
+
+						$user_data = mysqli_fetch_assoc($result);
+						
+						if($user_data['rso_password'] === $password)
+						{
+
+							$_SESSION['rso_id'] = $user_data['rso_id'];
+							header("Location: index.php");
+							die;
+						}
+					}
+				}
+			}else if(($login_type == "University") || ($login_type == "university"))
+			{
+				//read from database
+				$query = "select * from super_admin where university_name = '$user_name' limit 1";
+				$result = mysqli_query($con, $query);
+
+				if($result)
+				{
+					if($result && mysqli_num_rows($result) > 0)
+					{
+
+						$user_data = mysqli_fetch_assoc($result);
+						
+						if($user_data['university_password'] === $password)
+						{
+
+							$_SESSION['super_admin_id'] = $user_data['super_admin_id'];
+							header("Location: index.php");
+							die;
+						}
 					}
 				}
 			}
+			
 			
 			echo "wrong username or password!";
 		}else
@@ -88,6 +136,7 @@ session_start();
 		<form method="post">
 			<div style="font-size: 20px;margin: 10px;color: white;">Login</div>
 
+			<input id="text" type="text" name="login_type"><br><br>
 			<input id="text" type="text" name="student_username"><br><br>
 			<input id="text" type="password" name="student_password"><br><br>
 

@@ -8,21 +8,49 @@ session_start();
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
 		//something was posted
-		$user_name = $_POST['student_username'];
-		$password = $_POST['student_password'];
-		//$email = $_POST['student_email'];
+		$user_name = $_POST['username'];
+		$password = $_POST['password'];
+		$login_type = $_POST['login_type'];
 
 		if(!empty($user_name) && !empty($password))
 		{
+			if(($login_type == "Student") || ($login_type == "student"))
+			{
+				//save to database
+				$student_name = $user_name;
+				$student_password = $password;
+				$query = "insert into students (student_username,student_password) values ('$student_name','$student_password')";
 
-			//save to database
-			//$user_id = random_num(20);
-			$query = "insert into students (student_username,student_password) values ('$user_name','$password')";
+				mysqli_query($con, $query);
 
-			mysqli_query($con, $query);
+				header("Location: login.php");
+				die;
+			}else if(($login_type == "RSO") || ($login_type == "rso"))
+			{
+				$rso_name = $user_name;
+				$rso_password = $password;
+				$query = "insert into admin (rso_name,rso_password) values ('$rso_name','$rso_password')";
 
-			header("Location: login.php");
-			die;
+				mysqli_query($con, $query);
+
+				header("Location: login.php");
+				die;
+			}else if(($login_type == "University") || ($login_type == "university"))
+			{
+				$university_name = $user_name;
+				$university_password = $password;
+				$query = "insert into super_admin (university_name,university_password) values ('$university_name','$university_password')";
+
+				mysqli_query($con, $query);
+
+				header("Location: login.php");
+				die;
+			}else
+			{
+				echo "Please enter valid login type!";
+			}
+
+			
 		}else
 		{
 			echo "Please enter some valid information!";
@@ -73,8 +101,9 @@ session_start();
 		<form method="post">
 			<div style="font-size: 20px;margin: 10px;color: white;">Signup</div>
 
-			<input id="text" type="text" name="student_username"><br><br>
-			<input id="text" type="password" name="student_password"><br><br>
+			<input id="text" type="text" name="login_type"><br><br>
+			<input id="text" type="text" name="username"><br><br>
+			<input id="text" type="password" name="password"><br><br>
 
 			<input id="button" type="submit" value="Signup"><br><br>
 
