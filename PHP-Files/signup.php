@@ -25,7 +25,8 @@ session_start();
 
 				header("Location: login.php");
 				die;
-			}else if(($login_type == "RSO") || ($login_type == "rso"))
+			}
+			else if(($login_type == "RSO") || ($login_type == "rso"))
 			{
 				$rso_name = $user_name;
 				$rso_password = $password;
@@ -35,7 +36,8 @@ session_start();
 
 				header("Location: login.php");
 				die;
-			}else if(($login_type == "University") || ($login_type == "university"))
+			}
+			else if(($login_type == "University") || ($login_type == "university"))
 			{
 				$university_name = $user_name;
 				$university_password = $password;
@@ -99,15 +101,20 @@ session_start();
 	<div id="box">
 		
 		<form method="post">
-			<div style="font-size: 20px;margin: 10px;color: white;">Signup</div>
+			<div style="font-size: 30px;color: white;">Signup</div>
+			<p style="font-size: 20px;color: white;">Account Type:</p>
 
 			<input id="text" type="text" name="login_type"><br><br>
+			<p style="font-size: 20px;color: white;">Username: </p>
+
 			<input id="text" type="text" name="username"><br><br>
+			<p style="font-size: 20px;color: white;">Password: </p>
+
 			<input id="text" type="password" name="password"><br><br>
 
 			<input id="button" type="submit" value="Signup"><br><br>
 
-			<a href="login.php">Click to Login</a><br><br>
+			<a href="login.php"  style="text-decoration:none;" id = "button" type = "submit">Login</a><br><br>
 		</form>
 	</div>
 </body>

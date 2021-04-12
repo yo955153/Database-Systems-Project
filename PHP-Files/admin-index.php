@@ -11,14 +11,20 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>My website</title>
+	<title>College Events</title>
 </head>
+
 <body>
-
+	<div style="text-align:right"> 
+	<p>RSO Admin View</p>
+	<p>Logged in as, <?php echo $user_data['rso_name']; ?></p>
+   
 	<a href="logout.php">Logout</a>
-	<h1>This is the index page</h1>
-
+	</div>
+	<h1 style="text-align:center">College Events</h1>
 	<br>
-	Hello, <?php echo $user_data['rso_name']; ?>
+	<h2>Upcoming Events:</h2>
+	
+
 </body>
 </html>

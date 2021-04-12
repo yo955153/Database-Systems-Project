@@ -134,15 +134,17 @@ session_start();
 	<div id="box">
 		
 		<form method="post">
-			<div style="font-size: 20px;margin: 10px;color: white;">Login</div>
-
+			<div style="font-size: 30px; color: white;">Login</div>
+			<p style="font-size: 20px;color: white;">Account Type:</p>
 			<input id="text" type="text" name="login_type"><br><br>
+			<p style="font-size: 20px;color: white;">Username: </p>
 			<input id="text" type="text" name="student_username"><br><br>
+			<p style="font-size: 20px;color: white;">Password: </p>
 			<input id="text" type="password" name="student_password"><br><br>
 
 			<input id="button" type="submit" value="Login"><br><br>
 
-			<a href="signup.php">Click to Signup</a><br><br>
+			<a href="signup.php" style="text-decoration:none;" id = "button">Signup</a><br><br>
 		</form>
 	</div>
 </body>
