@@ -31,7 +31,7 @@ function check_login($con)
 	}else if(isset($_SESSION['super_admin_id']))
 	{
 		$id = $_SESSION['super_admin_id'];
-		$query = "select * from super_admin where super_admin_id = '$id' limit 1";
+		$query = "select * from new_super_admin where super_admin_id = '$id' limit 1";
 
 		$result = mysqli_query($con,$query);
 		if($result && mysqli_num_rows($result) > 0)

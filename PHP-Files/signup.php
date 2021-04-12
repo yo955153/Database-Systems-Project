@@ -41,7 +41,7 @@ session_start();
 			{
 				$university_name = $user_name;
 				$university_password = $password;
-				$query = "insert into super_admin (university_name,university_password) values ('$university_name','$university_password')";
+				$query = "insert into new_super_admin (university_name,university_password) values ('$university_name','$university_password')";
 
 				mysqli_query($con, $query);
 

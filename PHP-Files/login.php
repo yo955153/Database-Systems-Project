@@ -62,7 +62,7 @@ session_start();
 			}else if(($login_type == "University") || ($login_type == "university"))
 			{
 				//read from database
-				$query = "select * from super_admin where university_name = '$user_name' limit 1";
+				$query = "select * from new_super_admin where university_name = '$user_name' limit 1";
 				$result = mysqli_query($con, $query);
 
 				if($result)
