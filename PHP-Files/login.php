@@ -54,7 +54,7 @@ session_start();
 						{
 
 							$_SESSION['rso_id'] = $user_data['rso_id'];
-							header("Location: index.php");
+							header("Location: admin-index.php");
 							die;
 						}
 					}
@@ -76,7 +76,7 @@ session_start();
 						{
 
 							$_SESSION['super_admin_id'] = $user_data['super_admin_id'];
-							header("Location: index.php");
+							header("Location: super-admin-index.php");
 							die;
 						}
 					}
