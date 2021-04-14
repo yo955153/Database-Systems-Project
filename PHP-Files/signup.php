@@ -103,13 +103,10 @@ session_start();
 		<form method="post">
 			<div style="font-size: 30px;color: white;">Signup</div>
 			<p style="font-size: 20px;color: white;">Account Type:</p>
-
 			<input id="text" type="text" name="login_type"><br><br>
 			<p style="font-size: 20px;color: white;">Username: </p>
-
 			<input id="text" type="text" name="username"><br><br>
 			<p style="font-size: 20px;color: white;">Password: </p>
-
 			<input id="text" type="password" name="password"><br><br>
 
 			<input id="button" type="submit" value="Signup"><br><br>
