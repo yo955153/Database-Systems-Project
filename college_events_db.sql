@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2021 at 11:58 PM
+-- Generation Time: Apr 15, 2021 at 10:59 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -51,9 +51,8 @@ INSERT INTO `admin` (`rso_id`, `university_id`, `rso_name`, `rso_password`) VALU
 CREATE TABLE `events` (
   `event_id` int(11) NOT NULL,
   `location_id` int(11) NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL,
   `event_name` varchar(20) NOT NULL,
+  `start_date_time` datetime DEFAULT NULL,
   `event_description` text NOT NULL,
   `event_type` set('Public','Private_Uni','Private_RSO','') NOT NULL,
   `rso_name` varchar(30) NOT NULL
@@ -63,9 +62,12 @@ CREATE TABLE `events` (
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`event_id`, `location_id`, `start_time`, `end_time`, `event_name`, `event_description`, `event_type`, `rso_name`) VALUES
-(1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Hacking Seminar', 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF'),
-(2, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Registration for clu', 'This will be a seminar to register for Hack UCF.', 'Private_Uni', 'Hack UCF');
+INSERT INTO `events` (`event_id`, `location_id`, `event_name`, `start_date_time`, `event_description`, `event_type`, `rso_name`) VALUES
+(1, 0, 'Hacking Seminar', NULL, 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF'),
+(2, 0, 'Registration for clu', NULL, 'This will be a seminar to register for Hack UCF.', 'Private_Uni', 'Hack UCF'),
+(3, 0, 'Yoseph Class', NULL, 'This will be about Yoseph.', 'Private_RSO', 'Hack UCF'),
+(4, 0, 'Hacking Seminar', NULL, 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF'),
+(5, 0, 'Registration for clu', '2021-04-16 17:30:00', 'This will be about Yoseph.', 'Public', 'Hack UCF');
 
 -- --------------------------------------------------------
 
@@ -180,7 +182,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `new_super_admin`
