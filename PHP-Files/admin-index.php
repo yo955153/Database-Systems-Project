@@ -16,12 +16,13 @@ session_start();
 		$event_type = $_POST['event_type'];
 		$event_name = $_POST['event_name'];
 		$event_description = $_POST['event_description'];
+		$start_date_time = date('Y-m-d H:i:s', strtotime($_POST['start_date_time']));
 
 		if(!empty($rso_name) && !empty($event_type) && !empty($event_name) && !empty($event_description))
 		{
 
 			//save to database
-			$query = "insert into events (rso_name,event_type,event_name,event_description) values ('$rso_name','$event_type','$event_name','$event_description')";
+			$query = "insert into events (rso_name,event_type,event_name,event_description, start_date_time) values ('$rso_name','$event_type','$event_name','$event_description', '$start_date_time')";
 
 			mysqli_query($con, $query);
 
@@ -89,6 +90,7 @@ session_start();
 			<input id="text" type="text" name="event_type"><br><br>
 			<input id="text" type="text" name="event_name"><br><br>
 			<input id="text" type="text" name="event_description"><br><br>
+			<input id="text" type="datetime-local" name="start_date_time"><br><br>
 			<input id="button" type="submit" value="Create Event"><br><br>
 		</form>
 	</div>
@@ -103,6 +105,7 @@ session_start();
 		echo "<td> {$event['event_type']} </td>";
 		echo "<td> {$event['event_name']} </td>";
 		echo "<td> {$event['event_description']} </td>";
+		echo "<td> {$event['start_date_time']} </td>";
 		echo "</tr>";
 	}
 	echo "</table>"; ?></p>
