@@ -48,6 +48,13 @@ function check_login($con)
 
 }
 
+function load_events($con)
+{
+	$query = "select * from events";
+	$result = mysqli_query($con,$query);
+	return $result;
+}
+
 
 function random_num($length)
 {

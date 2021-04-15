@@ -5,6 +5,9 @@ session_start();
 	include("functions.php");
 
 	$user_data = check_login($con);
+	$event_data = load_events($con);
+
+	
 
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
@@ -91,8 +94,18 @@ session_start();
 	</div>
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-	<h2>Upcoming Events:</h2>
-	
+	<h2>Upcoming Events:</h2><br>
+	<p><?php echo "<table border ='1px'>";
+	while($event = mysqli_fetch_array($event_data))
+	{
+		echo "<tr>";
+		echo "<td> {$event['rso_name']} </td>";
+		echo "<td> {$event['event_type']} </td>";
+		echo "<td> {$event['event_name']} </td>";
+		echo "<td> {$event['event_description']} </td>";
+		echo "</tr>";
+	}
+	echo "</table>"; ?></p>
 
 </body>
 </html>
