@@ -72,6 +72,16 @@ session_start();
 			width: 300px;
 			padding: 20px;
 		}
+
+		h4
+		{
+			color: white;
+		}
+		table
+		{
+			border-collapse: separate;
+  			border-spacing: 2px;
+		}
 	</style>
 
 
@@ -87,11 +97,17 @@ session_start();
 	<br>
 	<div id="box">
 		<form method="post">
-			<input id="text" type="text" name="university_name"><br><br>
-			<input id="text" type="text" name="rso_name"><br><br>
-			<input id="text" type="text" name="event_type"><br><br>
-			<input id="text" type="text" name="event_name"><br><br>
-			<input id="text" type="text" name="event_description"><br><br>
+			<h4>University</h4>
+			<input id="text" type="text" name="university_name"><br>
+			<h4>RSO</h4>
+			<input id="text" type="text" name="rso_name"><br>
+			<h4>Event Type</h4>
+			<input id="text" type="text" name="event_type"><br>
+			<h4>Event Name</h4>
+			<input id="text" type="text" name="event_name"><br>
+			<h4>Description</h4>
+			<input id="text" type="text" name="event_description"><br>
+			<h4>Data & Time</h4>
 			<input id="text" type="datetime-local" name="start_date_time"><br><br>
 			<input id="button" type="submit" value="Create Event"><br><br>
 		</form>
@@ -101,7 +117,7 @@ session_start();
 	<h2>Upcoming Events:</h2><br>
 	<h3>Public Events:</h3>
 	<p><?php 
-	echo "<table border ='1px'>";
+	echo "<table border ='1px'> ";
 	while($event = mysqli_fetch_array($event_data))
 	{
 		if($event['event_type'] == 'Public')
