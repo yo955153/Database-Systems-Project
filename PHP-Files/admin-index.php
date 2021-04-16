@@ -12,17 +12,18 @@ session_start();
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
 		//something was posted
+		$university_name = $_POST['university_name'];
 		$rso_name = $_POST['rso_name'];
 		$event_type = $_POST['event_type'];
 		$event_name = $_POST['event_name'];
 		$event_description = $_POST['event_description'];
 		$start_date_time = date('Y-m-d H:i:s', strtotime($_POST['start_date_time']));
 
-		if(!empty($rso_name) && !empty($event_type) && !empty($event_name) && !empty($event_description))
+		if(!empty($university_name) && !empty($rso_name) && !empty($event_type) && !empty($event_name) && !empty($event_description))
 		{
 
 			//save to database
-			$query = "insert into events (rso_name,event_type,event_name,event_description, start_date_time) values ('$rso_name','$event_type','$event_name','$event_description', '$start_date_time')";
+			$query = "insert into events (university_name,rso_name,event_type,event_name,event_description, start_date_time) values ('$university_name','$rso_name','$event_type','$event_name','$event_description', '$start_date_time')";
 
 			mysqli_query($con, $query);
 
@@ -86,6 +87,7 @@ session_start();
 	<br>
 	<div id="box">
 		<form method="post">
+			<input id="text" type="text" name="university_name"><br><br>
 			<input id="text" type="text" name="rso_name"><br><br>
 			<input id="text" type="text" name="event_type"><br><br>
 			<input id="text" type="text" name="event_name"><br><br>
@@ -105,6 +107,7 @@ session_start();
 		if($event['event_type'] == 'Public')
 		{
 			echo "<tr>";
+			echo "<td> {$event['university_name']} </td>";
 			echo "<td> {$event['rso_name']} </td>";
 			echo "<td> {$event['event_type']} </td>";
 			echo "<td> {$event['event_name']} </td>";
@@ -122,6 +125,7 @@ session_start();
 		if($event['event_type'] == 'Private_Uni')
 		{
 			echo "<tr>";
+			echo "<td> {$event['university_name']} </td>";
 			echo "<td> {$event['rso_name']} </td>";
 			echo "<td> {$event['event_type']} </td>";
 			echo "<td> {$event['event_name']} </td>";
@@ -141,6 +145,7 @@ session_start();
 			if($event['rso_name'] == $user_data['rso_name'])
 			{
 				echo "<tr>";
+				echo "<td> {$event['university_name']} </td>";
 				echo "<td> {$event['rso_name']} </td>";
 				echo "<td> {$event['event_type']} </td>";
 				echo "<td> {$event['event_name']} </td>";

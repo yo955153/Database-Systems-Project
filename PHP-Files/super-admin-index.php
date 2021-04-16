@@ -32,6 +32,7 @@ session_start();
 		if($event['event_type'] == 'Public')
 		{
 			echo "<tr>";
+			echo "<td> {$event['university_name']} </td>";
 			echo "<td> {$event['rso_name']} </td>";
 			echo "<td> {$event['event_type']} </td>";
 			echo "<td> {$event['event_name']} </td>";
@@ -49,6 +50,7 @@ session_start();
 		if($event['event_type'] == 'Private_Uni')
 		{
 			echo "<tr>";
+			echo "<td> {$event['university_name']} </td>";
 			echo "<td> {$event['rso_name']} </td>";
 			echo "<td> {$event['event_type']} </td>";
 			echo "<td> {$event['event_name']} </td>";
@@ -68,6 +70,7 @@ session_start();
 			if($event['rso_name'] == $user_data['rso_name'])
 			{
 				echo "<tr>";
+				echo "<td> {$event['university_name']} </td>";
 				echo "<td> {$event['rso_name']} </td>";
 				echo "<td> {$event['event_type']} </td>";
 				echo "<td> {$event['event_name']} </td>";

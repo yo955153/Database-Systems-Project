@@ -7,13 +7,25 @@ session_start();
 	$user_data = check_login($con);
 	$event_data = load_events($con);
 
-	if($_SERVER['REQUEST_METHOD'] == "POST")
+	if(isset($_POST['joinRSO']))
 	{
 		$rso_name = $_POST['rso_name'];
 		if(!empty($rso_name))
 		{
 			$student_username = $user_data['student_username'];
 			$query = "update students set rso_name = '$rso_name' where student_username = '$student_username'";
+			mysqli_query($con, $query);
+
+			header("Location: index.php");
+			die;
+		}
+	}else if(isset($_POST['joinUni']))
+	{
+		$university_name = $_POST['university_name'];
+		if(!empty($university_name))
+		{
+			$student_username = $user_data['student_username'];
+			$query = "update students set university_name = '$university_name' where student_username = '$student_username'";
 			mysqli_query($con, $query);
 
 			header("Location: index.php");
@@ -66,11 +78,19 @@ session_start();
 	<a href="logout.php">Logout</a>
 	</div>
 	<h1 style="text-align:center">College Events</h1><br>
+	<h2>Register for a University:</h2><br>
+	<div id="box">
+		<form method="post">
+			<input id="text" type="text" name="university_name"><br><br>
+			<input id="button" type="submit" name="joinUni" value="Join University"><br><br>
+		</form>
+	</div>
+	<br>
 	<h2>Register for an RSO:</h2><br>
 	<div id="box">
 		<form method="post">
 			<input id="text" type="text" name="rso_name"><br><br>
-			<input id="button" type="submit" value="Join RSO"><br><br>
+			<input id="button" type="submit" name="joinRSO" value="Join RSO"><br><br>
 		</form>
 	</div>
 	<br>
@@ -83,6 +103,7 @@ session_start();
 		if($event['event_type'] == 'Public')
 		{
 			echo "<tr>";
+			echo "<td> {$event['university_name']} </td>";
 			echo "<td> {$event['rso_name']} </td>";
 			echo "<td> {$event['event_type']} </td>";
 			echo "<td> {$event['event_name']} </td>";
@@ -99,13 +120,17 @@ session_start();
 	{
 		if($event['event_type'] == 'Private_Uni')
 		{
-			echo "<tr>";
-			echo "<td> {$event['rso_name']} </td>";
-			echo "<td> {$event['event_type']} </td>";
-			echo "<td> {$event['event_name']} </td>";
-			echo "<td> {$event['event_description']} </td>";
-			echo "<td> {$event['start_date_time']} </td>";
-			echo "</tr>";
+			if($event['university_name'] == $user_data['university_name'])
+			{
+				echo "<tr>";
+				echo "<td> {$event['university_name']} </td>";
+				echo "<td> {$event['rso_name']} </td>";
+				echo "<td> {$event['event_type']} </td>";
+				echo "<td> {$event['event_name']} </td>";
+				echo "<td> {$event['event_description']} </td>";
+				echo "<td> {$event['start_date_time']} </td>";
+				echo "</tr>";
+			}
 		}
 	}
 	echo "</table>"; ?></p>
@@ -119,6 +144,7 @@ session_start();
 			if($event['rso_name'] == $user_data['rso_name'])
 			{
 				echo "<tr>";
+				echo "<td> {$event['university_name']} </td>";
 				echo "<td> {$event['rso_name']} </td>";
 				echo "<td> {$event['event_type']} </td>";
 				echo "<td> {$event['event_name']} </td>";
