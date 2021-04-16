@@ -65,9 +65,9 @@ session_start();
 		}
 
 		#box{
-			float: left;
+			
 			background-color: grey;
-			margin: auto;
+			margin: left;
 			width: 300px;
 			padding: 20px;
 		}
@@ -94,19 +94,62 @@ session_start();
 			<input id="button" type="submit" value="Create Event"><br><br>
 		</form>
 	</div>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<br><br>
 
 	<h2>Upcoming Events:</h2><br>
-	<p><?php echo "<table border ='1px'>";
+	<h3>Public Events:</h3>
+	<p><?php 
+	echo "<table border ='1px'>";
 	while($event = mysqli_fetch_array($event_data))
 	{
-		echo "<tr>";
-		echo "<td> {$event['rso_name']} </td>";
-		echo "<td> {$event['event_type']} </td>";
-		echo "<td> {$event['event_name']} </td>";
-		echo "<td> {$event['event_description']} </td>";
-		echo "<td> {$event['start_date_time']} </td>";
-		echo "</tr>";
+		if($event['event_type'] == 'Public')
+		{
+			echo "<tr>";
+			echo "<td> {$event['rso_name']} </td>";
+			echo "<td> {$event['event_type']} </td>";
+			echo "<td> {$event['event_name']} </td>";
+			echo "<td> {$event['event_description']} </td>";
+			echo "<td> {$event['start_date_time']} </td>";
+			echo "</tr>";
+		}
+	}
+	echo "</table>"; ?></p>
+	<h3>Private University Events:</h3>
+	<p><?php echo "<table border ='1px'>";
+	$event_data = load_events($con);
+	while($event = mysqli_fetch_array($event_data))
+	{
+		if($event['event_type'] == 'Private_Uni')
+		{
+			echo "<tr>";
+			echo "<td> {$event['rso_name']} </td>";
+			echo "<td> {$event['event_type']} </td>";
+			echo "<td> {$event['event_name']} </td>";
+			echo "<td> {$event['event_description']} </td>";
+			echo "<td> {$event['start_date_time']} </td>";
+			echo "</tr>";
+		}
+	}
+	echo "</table>"; ?></p>
+	<h3>Private RSO Events:</h3>
+	<p><?php echo "<table border ='1px'>";
+	$event_data = load_events($con);
+	while($event = mysqli_fetch_array($event_data))
+	{
+		if($event['event_type'] == 'Private_RSO')
+		{
+			if($event['rso_name'] == $user_data['rso_name'])
+			{
+				echo "<tr>";
+				echo "<td> {$event['rso_name']} </td>";
+				echo "<td> {$event['event_type']} </td>";
+				echo "<td> {$event['event_name']} </td>";
+				echo "<td> {$event['event_description']} </td>";
+				echo "<td> {$event['start_date_time']} </td>";
+				echo "</tr>";
+			}
+			
+		}
 	}
 	echo "</table>"; ?></p>
 
