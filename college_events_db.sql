@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2021 at 10:59 PM
+-- Generation Time: Apr 16, 2021 at 08:14 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -55,19 +55,24 @@ CREATE TABLE `events` (
   `start_date_time` datetime DEFAULT NULL,
   `event_description` text NOT NULL,
   `event_type` set('Public','Private_Uni','Private_RSO','') NOT NULL,
-  `rso_name` varchar(30) NOT NULL
+  `rso_name` varchar(30) NOT NULL,
+  `university_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`event_id`, `location_id`, `event_name`, `start_date_time`, `event_description`, `event_type`, `rso_name`) VALUES
-(1, 0, 'Hacking Seminar', NULL, 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF'),
-(2, 0, 'Registration for clu', NULL, 'This will be a seminar to register for Hack UCF.', 'Private_Uni', 'Hack UCF'),
-(3, 0, 'Yoseph Class', NULL, 'This will be about Yoseph.', 'Private_RSO', 'Hack UCF'),
-(4, 0, 'Hacking Seminar', NULL, 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF'),
-(5, 0, 'Registration for clu', '2021-04-16 17:30:00', 'This will be about Yoseph.', 'Public', 'Hack UCF');
+INSERT INTO `events` (`event_id`, `location_id`, `event_name`, `start_date_time`, `event_description`, `event_type`, `rso_name`, `university_name`) VALUES
+(1, 0, 'Hacking Seminar', NULL, 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF', ''),
+(2, 0, 'Registration for clu', NULL, 'This will be a seminar to register for Hack UCF.', 'Private_Uni', 'Hack UCF', ''),
+(3, 0, 'Yoseph Class', NULL, 'This will be about Yoseph.', 'Private_RSO', 'Hack UCF', ''),
+(4, 0, 'Hacking Seminar', NULL, 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF', ''),
+(5, 0, 'Registration for clu', '2021-04-16 17:30:00', 'This will be about Yoseph.', 'Public', 'Hack UCF', ''),
+(6, 0, 'Random stuff', '2021-04-21 15:00:00', 'We dont know what this is.', 'Public', 'test', ''),
+(7, 0, 'Random stuff part 2', '2021-04-29 16:00:00', 'testing the priivate rso event feature', 'Private_RSO', 'test', ''),
+(8, 0, 'Hacking Seminar', '2021-04-30 17:00:00', 'This will be a short presentation about the fundamentals of hacking.', 'Private_Uni', 'Hack UCF', 'UCF'),
+(9, 0, 'Random stuff', '2021-05-06 14:00:00', 'This will be about Yoseph.', 'Private_Uni', 'test', 'MIT');
 
 -- --------------------------------------------------------
 
@@ -116,17 +121,18 @@ CREATE TABLE `students` (
   `student_username` varchar(20) NOT NULL,
   `student_password` varchar(20) NOT NULL,
   `rso_name` varchar(30) NOT NULL,
-  `rso_id` int(11) NOT NULL
+  `rso_id` int(11) NOT NULL,
+  `university_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`student_id`, `student_name`, `student_username`, `student_password`, `rso_name`, `rso_id`) VALUES
-(1, '', 'yo12345', 'testing2', '', 0),
-(2, '', 'yosemiteyoserph', '1234', '', 0),
-(3, '', 'ha1234', 'testing', '', 0);
+INSERT INTO `students` (`student_id`, `student_name`, `student_username`, `student_password`, `rso_name`, `rso_id`, `university_name`) VALUES
+(1, '', 'yo12345', 'testing2', 'Hack UCF', 0, ''),
+(2, '', 'yosemiteyoserph', '1234', 'test', 0, 'UCF'),
+(3, '', 'ha1234', 'testing', '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -182,7 +188,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `new_super_admin`
