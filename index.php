@@ -31,6 +31,20 @@ session_start();
 			header("Location: index.php");
 			die;
 		}
+	}else if(isset($_POST['postComment']))
+	{
+		$event_name = $_POST['event_name'];
+		$comment = $_POST['event_comment'];
+
+		if(!empty($event_name) && !empty($comment))
+		{
+			$student_username = $user_data['student_username'];
+			$query = "insert into comments (event_name,comment,student_username) values ('$event_name','$comment','$student_username')";
+			mysqli_query($con, $query);
+
+			header("Location: index.php");
+			die;
+		}
 	}
 
 ?>
@@ -69,6 +83,14 @@ session_start();
 			width: 300px;
 			padding: 20px;
 		}
+
+		#events{
+			
+			background-color: grey;
+			margin: auto;
+			width: 800px;
+			padding: 20px;
+		}
 	</style>
 
 	<div style="text-align:right"> 
@@ -94,48 +116,100 @@ session_start();
 		</form>
 	</div>
 	<br>
-	<h2>Upcoming Events:</h2><br>
-	<h3>Public Events:</h3>
+	<h2>Comment on an Event:</h2>
+	<br>
+	<div id="box">
+		<form method="post">
+			<h4>Event Name</h4>
+			<input id="text" type="text" name="event_name"><br>
+			<h4>Comment</h4>
+			<input id="text" type="text" name="event_comment"><br><br>
+			<input id="button" type="submit" name="postComment" value="Post Comment"><br><br>
+		</form>
+	</div>
+	<br><br>
+	<h2 style = "text-align:center">Upcoming Events:</h2><br>
+	<h3 style = "text-align:center">Public Events:</h3>
 	<p><?php 
-	echo "<table border ='1px'>";
+	$event_data = load_events($con);
 	while($event = mysqli_fetch_array($event_data))
 	{
 		if($event['event_type'] == 'Public')
 		{
-			echo "<tr>";
-			echo "<td> {$event['university_name']} </td>";
-			echo "<td> {$event['rso_name']} </td>";
-			echo "<td> {$event['event_type']} </td>";
-			echo "<td> {$event['event_name']} </td>";
-			echo "<td> {$event['event_description']} </td>";
-			echo "<td> {$event['start_date_time']} </td>";
-			echo "</tr>";
+			echo '<div id="events">';
+			echo "<h4> {$event['event_name']} </h4>";
+			echo "<p> University: {$event['university_name']} </p>";
+			echo "<p> RSO: {$event['rso_name']} </p>";
+			echo "<p> Event Type: {$event['event_type']} </p>";
+			echo "<p> Description: {$event['event_description']} </p>";
+			echo "<p> Date: {$event['date']} </p>";
+			echo "<p> Start Time: {$event['start_time']} </p>";
+			echo "<p> End Time: {$event['end_time']} </p>";
+			echo "	<iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.911485963419!2d-81.20224858450524!3d28.602432092192654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e7685d6a0a495f%3A0x5fd59b92b3c79bab!2sUniversity%20of%20Central%20Florida!5e0!3m2!1sen!2sus!4v1618676497316!5m2!1sen!2sus' width='600' height='450' style='border:0;' allowfullscreen='' loading='lazy'></iframe>";
+			$currentEvent = $event['event_name'];
+			$query = "select * from comments where event_name = '$currentEvent'";
+			$all_comments = mysqli_query($con,$query);
+			$count = 0;
+			while($currentComment = mysqli_fetch_array($all_comments))
+			{
+				$count = $count + 1;
+			}
+			$all_comments = mysqli_query($con,$query);
+			if($count > 0)
+			{
+				echo "<h4>Comments:</h4>";
+				while($currentComment = mysqli_fetch_array($all_comments))
+				{
+					echo "<p> User: {$currentComment['student_username']} </p>";
+					echo "<p> Comment: {$currentComment['comment']} </p><br>";
+				}
+			}
+			echo "</div>";
+			echo "<br>";	
 		}
 	}
-	echo "</table>"; ?></p>
-	<h3>Private University Events:</h3>
-	<p><?php echo "<table border ='1px'>";
+	?></p>
+	<h3 style = "text-align:center">Private University Events:</h3>
+	<p><?php
 	$event_data = load_events($con);
 	while($event = mysqli_fetch_array($event_data))
 	{
 		if($event['event_type'] == 'Private_Uni')
 		{
-			if($event['university_name'] == $user_data['university_name'])
+			echo '<div id="events">';
+			echo "<h4> {$event['event_name']} </h4>";
+			echo "<p> University: {$event['university_name']} </p>";
+			echo "<p> RSO: {$event['rso_name']} </p>";
+			echo "<p> Event Type: {$event['event_type']} </p>";
+			echo "<p> Description: {$event['event_description']} </p>";
+			echo "<p> Date: {$event['date']} </p>";
+			echo "<p> Start Time: {$event['start_time']} </p>";
+			echo "<p> End Time: {$event['end_time']} </p>";
+			$currentEvent = $event['event_name'];
+			$query = "select * from comments where event_name = '$currentEvent'";
+			$all_comments = mysqli_query($con,$query);
+			$count = 0;
+			while($currentComment = mysqli_fetch_array($all_comments))
 			{
-				echo "<tr>";
-				echo "<td> {$event['university_name']} </td>";
-				echo "<td> {$event['rso_name']} </td>";
-				echo "<td> {$event['event_type']} </td>";
-				echo "<td> {$event['event_name']} </td>";
-				echo "<td> {$event['event_description']} </td>";
-				echo "<td> {$event['start_date_time']} </td>";
-				echo "</tr>";
+				$count = $count + 1;
 			}
+			$all_comments = mysqli_query($con,$query);
+			if($count > 0)
+			{
+				echo "<h4>Comments:</h4>";
+				while($currentComment = mysqli_fetch_array($all_comments))
+				{
+					echo "<p> User: {$currentComment['student_username']} </p>";
+					echo "<p> Comment: {$currentComment['comment']} </p><br>";
+				}
+			}
+			echo "</div>";
+			echo "<br>";
 		}
 	}
-	echo "</table>"; ?></p>
-	<h3>Private RSO Events:</h3>
-	<p><?php echo "<table border ='1px'>";
+	?></p>
+	<h3 style = "text-align:center">Private RSO Events:</h3>
+	<p><?php
 	$event_data = load_events($con);
 	while($event = mysqli_fetch_array($event_data))
 	{
@@ -143,19 +217,41 @@ session_start();
 		{
 			if($event['rso_name'] == $user_data['rso_name'])
 			{
-				echo "<tr>";
-				echo "<td> {$event['university_name']} </td>";
-				echo "<td> {$event['rso_name']} </td>";
-				echo "<td> {$event['event_type']} </td>";
-				echo "<td> {$event['event_name']} </td>";
-				echo "<td> {$event['event_description']} </td>";
-				echo "<td> {$event['start_date_time']} </td>";
-				echo "</tr>";
+				echo '<div id="events">';
+				echo "<h4> {$event['event_name']} </h4>";
+				echo "<p> University: {$event['university_name']} </p>";
+				echo "<p> RSO: {$event['rso_name']} </p>";
+				echo "<p> Event Type: {$event['event_type']} </p>";
+				echo "<p> Description: {$event['event_description']} </p>";
+				echo "<p> Date: {$event['date']} </p>";
+				echo "<p> Start Time: {$event['start_time']} </p>";
+				echo "<p> End Time: {$event['end_time']} </p>";
+				$currentEvent = $event['event_name'];
+				$query = "select * from comments where event_name = '$currentEvent'";
+				$all_comments = mysqli_query($con,$query);
+				$count = 0;
+				while($currentComment = mysqli_fetch_array($all_comments))
+				{
+					$count = $count + 1;
+				}
+				$all_comments = mysqli_query($con,$query);
+				if($count > 0)
+				{
+					echo "<h4>Comments:</h4>";
+					while($currentComment = mysqli_fetch_array($all_comments))
+					{
+						echo "<p> User: {$currentComment['student_username']} </p>";
+						echo "<p> Comment: {$currentComment['comment']} </p><br>";
+					}
+				}
+				echo "</div>";
+				echo "<br>";
 			}
 			
 		}
 	}
-	echo "</table>"; ?></p>
+	?></p>
+	<!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.911485963419!2d-81.20224858450524!3d28.602432092192654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e7685d6a0a495f%3A0x5fd59b92b3c79bab!2sUniversity%20of%20Central%20Florida!5e0!3m2!1sen!2sus!4v1618676497316!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe> -->
 
 </body>
 </html>
