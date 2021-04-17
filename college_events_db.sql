@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2021 at 08:14 AM
+-- Generation Time: Apr 18, 2021 at 12:09 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `rso_id` int(11) NOT NULL,
-  `university_id` int(11) NOT NULL,
+  `university_name` varchar(30) NOT NULL,
   `rso_name` varchar(30) NOT NULL,
   `rso_password` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -38,9 +38,9 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`rso_id`, `university_id`, `rso_name`, `rso_password`) VALUES
-(3, 0, 'Hack UCF', 'hack'),
-(4, 0, 'test', 'test');
+INSERT INTO `admin` (`rso_id`, `university_name`, `rso_name`, `rso_password`) VALUES
+(3, 'UCF', 'Hack UCF', 'hack'),
+(4, 'MIT', 'test', 'test');
 
 -- --------------------------------------------------------
 
@@ -50,9 +50,11 @@ INSERT INTO `admin` (`rso_id`, `university_id`, `rso_name`, `rso_password`) VALU
 
 CREATE TABLE `events` (
   `event_id` int(11) NOT NULL,
-  `location_id` int(11) NOT NULL,
-  `event_name` varchar(20) NOT NULL,
-  `start_date_time` datetime DEFAULT NULL,
+  `location_name` varchar(50) DEFAULT NULL,
+  `event_name` varchar(50) NOT NULL,
+  `date` date DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
   `event_description` text NOT NULL,
   `event_type` set('Public','Private_Uni','Private_RSO','') NOT NULL,
   `rso_name` varchar(30) NOT NULL,
@@ -63,29 +65,13 @@ CREATE TABLE `events` (
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`event_id`, `location_id`, `event_name`, `start_date_time`, `event_description`, `event_type`, `rso_name`, `university_name`) VALUES
-(1, 0, 'Hacking Seminar', NULL, 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF', ''),
-(2, 0, 'Registration for clu', NULL, 'This will be a seminar to register for Hack UCF.', 'Private_Uni', 'Hack UCF', ''),
-(3, 0, 'Yoseph Class', NULL, 'This will be about Yoseph.', 'Private_RSO', 'Hack UCF', ''),
-(4, 0, 'Hacking Seminar', NULL, 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF', ''),
-(5, 0, 'Registration for clu', '2021-04-16 17:30:00', 'This will be about Yoseph.', 'Public', 'Hack UCF', ''),
-(6, 0, 'Random stuff', '2021-04-21 15:00:00', 'We dont know what this is.', 'Public', 'test', ''),
-(7, 0, 'Random stuff part 2', '2021-04-29 16:00:00', 'testing the priivate rso event feature', 'Private_RSO', 'test', ''),
-(8, 0, 'Hacking Seminar', '2021-04-30 17:00:00', 'This will be a short presentation about the fundamentals of hacking.', 'Private_Uni', 'Hack UCF', 'UCF'),
-(9, 0, 'Random stuff', '2021-05-06 14:00:00', 'This will be about Yoseph.', 'Private_Uni', 'test', 'MIT');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `locations`
---
-
-CREATE TABLE `locations` (
-  `location_id` int(11) NOT NULL,
-  `location_name` varchar(30) NOT NULL,
-  `longitude` point NOT NULL,
-  `latitude` point NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `events` (`event_id`, `location_name`, `event_name`, `date`, `start_time`, `end_time`, `event_description`, `event_type`, `rso_name`, `university_name`) VALUES
+(11, 'UCF Main Campus', 'Hacking Seminar', '2021-04-18', '15:00:00', '16:30:00', 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF', 'UCF'),
+(12, 'UCF Main Campus', 'Registration for club', '2021-04-18', '16:00:00', '17:00:00', 'This will be a seminar to register for Hack UCF.', 'Public', 'Hack UCF', 'UCF'),
+(13, 'MIT Main Campus', 'Random stuff part 2', '2021-04-20', '15:30:00', '16:30:00', 'testing the conflicting event times', 'Public', 'test', 'MIT'),
+(14, 'MIT Main Campus', 'Registration for club', '2021-04-20', '16:31:00', '17:30:00', 'This will be a seminar to register for Hack MIT.', 'Public', 'Hack MIT', 'MIT'),
+(15, 'UCF Main Campus', 'Random stuff', '2021-05-07', '17:00:00', '18:30:00', 'We dont know what this is.', 'Private_Uni', 'Hack UCF', 'UCF'),
+(16, 'MIT Main Campus', 'Registration for club', '2021-04-30', '15:00:00', '18:00:00', 'This will be a seminar to register for Hack MIT.', 'Private_RSO', 'test', 'MIT');
 
 -- --------------------------------------------------------
 
@@ -134,18 +120,6 @@ INSERT INTO `students` (`student_id`, `student_name`, `student_username`, `stude
 (2, '', 'yosemiteyoserph', '1234', 'test', 0, 'UCF'),
 (3, '', 'ha1234', 'testing', '', 0, '');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `universities`
---
-
-CREATE TABLE `universities` (
-  `super_admin_id` int(11) NOT NULL,
-  `university_name` int(11) NOT NULL,
-  `university_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 --
 -- Indexes for dumped tables
 --
@@ -188,7 +162,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `new_super_admin`
