@@ -85,6 +85,14 @@ session_start();
 			padding: 20px;
 		}
 
+		#events{
+			
+			background-color: grey;
+			margin: auto;
+			width: 500px;
+			padding: 20px;
+		}
+
 		h4
 		{
 			color: white;
@@ -134,42 +142,84 @@ session_start();
 	<h2>Upcoming Events:</h2><br>
 	<h3>Public Events:</h3>
 	<p><?php 
-	echo "<table border ='1px'>";
+	$event_data = load_events($con);
 	while($event = mysqli_fetch_array($event_data))
 	{
 		if($event['event_type'] == 'Public')
 		{
-			echo "<tr>";
-			echo "<td> {$event['university_name']} </td>";
-			echo "<td> {$event['rso_name']} </td>";
-			echo "<td> {$event['event_type']} </td>";
-			echo "<td> {$event['event_name']} </td>";
-			echo "<td> {$event['event_description']} </td>";
-			echo "<td> {$event['start_date_time']} </td>";
-			echo "</tr>";
+			echo '<div id="events">';
+			echo "<h4> {$event['event_name']} </h4>";
+			echo "<p> University: {$event['university_name']} </p>";
+			echo "<p> RSO: {$event['rso_name']} </p>";
+			echo "<p> Event Type: {$event['event_type']} </p>";
+			echo "<p> Description: {$event['event_description']} </p>";
+			echo "<p> Date: {$event['date']} </p>";
+			echo "<p> Start Time: {$event['start_time']} </p>";
+			echo "<p> End Time: {$event['end_time']} </p>";
+			$currentEvent = $event['event_name'];
+			$query = "select * from comments where event_name = '$currentEvent'";
+			$all_comments = mysqli_query($con,$query);
+			$count = 0;
+			while($currentComment = mysqli_fetch_array($all_comments))
+			{
+				$count = $count + 1;
+			}
+			$all_comments = mysqli_query($con,$query);
+			if($count > 0)
+			{
+				echo "<h4>Comments:</h4>";
+				while($currentComment = mysqli_fetch_array($all_comments))
+				{
+					echo "<p> User: {$currentComment['student_username']} </p>";
+					echo "<p> Comment: {$currentComment['comment']} </p><br>";
+				}
+			}
+			echo "</div>";
+			echo "<br>";
 		}
 	}
-	echo "</table>"; ?></p>
+	?></p>
 	<h3>Private University Events:</h3>
-	<p><?php echo "<table border ='1px'>";
+	<p><?php
 	$event_data = load_events($con);
 	while($event = mysqli_fetch_array($event_data))
 	{
 		if($event['event_type'] == 'Private_Uni')
 		{
-			echo "<tr>";
-			echo "<td> {$event['university_name']} </td>";
-			echo "<td> {$event['rso_name']} </td>";
-			echo "<td> {$event['event_type']} </td>";
-			echo "<td> {$event['event_name']} </td>";
-			echo "<td> {$event['event_description']} </td>";
-			echo "<td> {$event['start_date_time']} </td>";
-			echo "</tr>";
+			echo '<div id="events">';
+			echo "<h4> {$event['event_name']} </h4>";
+			echo "<p> University: {$event['university_name']} </p>";
+			echo "<p> RSO: {$event['rso_name']} </p>";
+			echo "<p> Event Type: {$event['event_type']} </p>";
+			echo "<p> Description: {$event['event_description']} </p>";
+			echo "<p> Date: {$event['date']} </p>";
+			echo "<p> Start Time: {$event['start_time']} </p>";
+			echo "<p> End Time: {$event['end_time']} </p>";
+			$currentEvent = $event['event_name'];
+			$query = "select * from comments where event_name = '$currentEvent'";
+			$all_comments = mysqli_query($con,$query);
+			$count = 0;
+			while($currentComment = mysqli_fetch_array($all_comments))
+			{
+				$count = $count + 1;
+			}
+			$all_comments = mysqli_query($con,$query);
+			if($count > 0)
+			{
+				echo "<h4>Comments:</h4>";
+				while($currentComment = mysqli_fetch_array($all_comments))
+				{
+					echo "<p> User: {$currentComment['student_username']} </p>";
+					echo "<p> Comment: {$currentComment['comment']} </p><br>";
+				}
+			}
+			echo "</div>";
+			echo "<br>";
 		}
 	}
-	echo "</table>"; ?></p>
+	?></p>
 	<h3>Private RSO Events:</h3>
-	<p><?php echo "<table border ='1px'>";
+	<p><?php
 	$event_data = load_events($con);
 	while($event = mysqli_fetch_array($event_data))
 	{
@@ -177,19 +227,40 @@ session_start();
 		{
 			if($event['rso_name'] == $user_data['rso_name'])
 			{
-				echo "<tr>";
-				echo "<td> {$event['university_name']} </td>";
-				echo "<td> {$event['rso_name']} </td>";
-				echo "<td> {$event['event_type']} </td>";
-				echo "<td> {$event['event_name']} </td>";
-				echo "<td> {$event['event_description']} </td>";
-				echo "<td> {$event['start_date_time']} </td>";
-				echo "</tr>";
+				echo '<div id="events">';
+				echo "<h4> {$event['event_name']} </h4>";
+				echo "<p> University: {$event['university_name']} </p>";
+				echo "<p> RSO: {$event['rso_name']} </p>";
+				echo "<p> Event Type: {$event['event_type']} </p>";
+				echo "<p> Description: {$event['event_description']} </p>";
+				echo "<p> Date: {$event['date']} </p>";
+				echo "<p> Start Time: {$event['start_time']} </p>";
+				echo "<p> End Time: {$event['end_time']} </p>";
+				$currentEvent = $event['event_name'];
+				$query = "select * from comments where event_name = '$currentEvent'";
+				$all_comments = mysqli_query($con,$query);
+				$count = 0;
+				while($currentComment = mysqli_fetch_array($all_comments))
+				{
+					$count = $count + 1;
+				}
+				$all_comments = mysqli_query($con,$query);
+				if($count > 0)
+				{
+					echo "<h4>Comments:</h4>";
+					while($currentComment = mysqli_fetch_array($all_comments))
+					{
+						echo "<p> User: {$currentComment['student_username']} </p>";
+						echo "<p> Comment: {$currentComment['comment']} </p><br>";
+					}
+				}
+				echo "</div>";
+				echo "<br>";
 			}
 			
 		}
 	}
-	echo "</table>"; ?></p>
+	?></p>
 
 </body>
 </html>
