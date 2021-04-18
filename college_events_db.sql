@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2021 at 12:33 AM
+-- Generation Time: Apr 18, 2021 at 04:30 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -31,16 +31,18 @@ CREATE TABLE `admin` (
   `rso_id` int(11) NOT NULL,
   `university_name` varchar(30) NOT NULL,
   `rso_name` varchar(30) NOT NULL,
-  `rso_password` varchar(30) NOT NULL
+  `rso_password` varchar(30) NOT NULL,
+  `status` set('Active','Inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`rso_id`, `university_name`, `rso_name`, `rso_password`) VALUES
-(3, 'UCF', 'Hack UCF', 'hack'),
-(4, 'MIT', 'test', 'test');
+INSERT INTO `admin` (`rso_id`, `university_name`, `rso_name`, `rso_password`, `status`) VALUES
+(3, 'UCF', 'Hack UCF', 'hack', 'Active'),
+(4, 'MIT', 'test', 'test', 'Inactive'),
+(6, 'UCF', 'test2', 'hi1', 'Inactive');
 
 -- --------------------------------------------------------
 
@@ -92,9 +94,8 @@ INSERT INTO `events` (`event_id`, `location_name`, `event_name`, `date`, `start_
 (11, 'UCF Main Campus', 'Hacking Seminar', '2021-04-18', '15:00:00', '16:30:00', 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF', 'UCF'),
 (12, 'UCF Main Campus', 'Registration for club', '2021-04-18', '16:00:00', '17:00:00', 'This will be a seminar to register for Hack UCF.', 'Public', 'Hack UCF', 'UCF'),
 (13, 'MIT Main Campus', 'Random stuff part 2', '2021-04-20', '15:30:00', '16:30:00', 'testing the conflicting event times', 'Public', 'test', 'MIT'),
-(14, 'MIT Main Campus', 'Registration for club', '2021-04-20', '16:31:00', '17:30:00', 'This will be a seminar to register for Hack MIT.', 'Public', 'Hack MIT', 'MIT'),
 (15, 'UCF Main Campus', 'Random stuff', '2021-05-07', '17:00:00', '18:30:00', 'We dont know what this is.', 'Private_Uni', 'Hack UCF', 'UCF'),
-(16, 'MIT Main Campus', 'Registration for club', '2021-04-30', '15:00:00', '18:00:00', 'This will be a seminar to register for Hack MIT.', 'Private_RSO', 'test', 'MIT');
+(17, 'UCF', 'Intro to Hacking', '2021-04-18', '19:30:00', '20:30:00', 'This will be a short presentation about the fundamentals of hacking.', 'Public', 'Hack UCF', 'UCF');
 
 -- --------------------------------------------------------
 
@@ -130,6 +131,17 @@ CREATE TABLE `rso_members` (
   `status` set('Active','Inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `rso_members`
+--
+
+INSERT INTO `rso_members` (`student_username`, `rso_name`, `status`) VALUES
+('sample1', 'Hack UCF', ''),
+('sample2', 'Hack UCF', ''),
+('sample3', 'Hack UCF', ''),
+('sample4', 'Hack UCF', ''),
+('sample5', 'Hack UCF', '');
+
 -- --------------------------------------------------------
 
 --
@@ -141,8 +153,6 @@ CREATE TABLE `students` (
   `student_name` varchar(20) NOT NULL,
   `student_username` varchar(20) NOT NULL,
   `student_password` varchar(20) NOT NULL,
-  `rso_name` varchar(30) NOT NULL,
-  `rso_id` int(11) NOT NULL,
   `university_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -150,10 +160,15 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`student_id`, `student_name`, `student_username`, `student_password`, `rso_name`, `rso_id`, `university_name`) VALUES
-(1, '', 'yo12345', 'testing2', 'Hack UCF', 0, ''),
-(2, '', 'yosemiteyoserph', '1234', 'test', 0, 'UCF'),
-(3, '', 'ha1234', 'testing', '', 0, '');
+INSERT INTO `students` (`student_id`, `student_name`, `student_username`, `student_password`, `university_name`) VALUES
+(1, '', 'yo12345', 'testing2', ''),
+(2, '', 'yosemiteyoserph', '1234', 'UCF'),
+(3, '', 'ha1234', 'testing', ''),
+(4, '', 'sample1', 'test', ''),
+(5, '', 'sample2', 'test', ''),
+(6, '', 'sample3', 'test', ''),
+(7, '', 'sample4', 'test', ''),
+(8, '', 'sample5', 'test', '');
 
 --
 -- Indexes for dumped tables
@@ -181,7 +196,8 @@ ALTER TABLE `events`
 -- Indexes for table `new_super_admin`
 --
 ALTER TABLE `new_super_admin`
-  ADD PRIMARY KEY (`super_admin_id`);
+  ADD PRIMARY KEY (`super_admin_id`),
+  ADD UNIQUE KEY `university_name` (`university_name`);
 
 --
 -- Indexes for table `rso_members`
@@ -204,7 +220,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `rso_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `rso_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -216,7 +232,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `new_super_admin`
@@ -228,7 +244,7 @@ ALTER TABLE `new_super_admin`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
